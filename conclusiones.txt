@@ -1,0 +1,11 @@
+HALLAZGOS Y CONCLUSIONES DEL EJERCICIO:
+
+1. Arquitectura de Pruebas (Decisión Técnica): 
+Se decidió utilizar Cypress.io para abarcar ambos ejercicios (E2E y API) dentro de un mismo framework. Esto demuestra la versatilidad de la herramienta, reduce la deuda técnica al mantener un único stack, y unifica la salida de reportes, lo cual es altamente recomendado en entornos de Integración Continua (CI/CD).
+
+2. Automatización E2E (SauceDemo):
+- Hallazgo: La aplicación de SauceDemo está construida con buenas prácticas para testing, utilizando atributos estáticos como `data-test`. Se utilizaron estos selectores en el script para asegurar la robustez del código y evitar "flakiness" frente a posibles cambios en el DOM o diseño CSS.
+
+3. Pruebas de API REST (Demoblaze):
+- Hallazgo Crítico: Se identificó una anomalía en el diseño de la API de Demoblaze (anti-patrón). Al enviar peticiones erróneas (como un usuario duplicado o una contraseña incorrecta), la API responde con un código de estado HTTP 200 (OK) en lugar de un código de error adecuado (como 400 Bad Request o 401 Unauthorized). El mensaje de error real viaja dentro del payload JSON (errorMessage).
+- Resolución: El test script fue adaptado para validar este comportamiento de la vida real, parseando el JSON de respuesta y haciendo aserciones directamente sobre el atributo `errorMessage`, demostrando capacidad de adaptación ante APIs inconsistentes.
